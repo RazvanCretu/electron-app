@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+// import { Router, Route } from "electron-router-dom";
+import { Routes, Route } from "react-router-dom";
+import Home from "./Screens/Home";
+import Layout from "./components/Layout";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // Wraper implementation
+    // <Router
+    // main={
+    //   <Route element={<Layout />}>
+    //     <Route index element={<Home />} />
+    //     <Route path="/search" element={<div id="searchScreen"></div>} />
+    //   </Route>
+    // }
+    // />
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="/search" element={<div id="searchScreen"></div>} />
+      </Route>
+    </Routes>
   );
 }
 

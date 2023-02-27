@@ -2,20 +2,60 @@
   "name": "app",
   "version": "0.1.0",
   "private": true,
+  "main": "public/electron.js",
+  "homepage": "./",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "electron-router-dom": "^1.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "react-router-dom": "^6.8.1",
+    "react-scripts": "5.0.1"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "electron": "^23.1.1",
+    "electron-builder": "^23.6.0",
+    "electron-is-dev": "^2.0.0",
+    "wait-on": "^7.0.1"
+  },
+  "build": {
+    "mac": {
+      "publish": {
+        "provider": "github",
+        "owner": "RazvanCretu",
+        "repo": "electron-app",
+        "private": true,
+        "token": "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"
+      }
+    },
+    "win": {
+      "publish": {
+        "provider": "github",
+        "owner": "RazvanCretu",
+        "repo": "electron-app",
+        "private": true,
+        "token": "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"
+      }
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "publish": {
+      "provider": "github",
+      "private": true,
+      "owner": "RazvanCretu"
+    }
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "concurrently -k \"npm start\" \"npm:electron\"",
+    "electron": "wait-on tcp:3000 && set ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "package": "electron-builder build --win -c.extraMetadata.main=build/electron.js --publish never",
+    "publish": "electron-builder build --win --publish always"
   },
   "eslintConfig": {
     "extends": [
