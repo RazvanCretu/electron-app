@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { HashRouter } from "react-router-dom";
+import { MemoryRouter as Router } from "react-router-dom";
+import { GlobalStyles } from "@mui/material";
 import App from "./App";
 
 import "@fontsource/roboto/300.css";
@@ -11,8 +12,19 @@ import "@fontsource/roboto/700.css";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <HashRouter>
+    <Router>
+      <GlobalStyles
+        styles={{
+          body: {
+            // WebkitAppRegion: "drag",
+            margin: 0,
+          },
+          "button, a": {
+            // WebkitAppRegion: "no-drag",
+          },
+        }}
+      />
       <App />
-    </HashRouter>
+    </Router>
   </React.StrictMode>
 );
