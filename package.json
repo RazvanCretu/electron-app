@@ -4,14 +4,18 @@
   "private": true,
   "main": "public/electron.js",
   "homepage": "./",
+  "icon": "public/favicon.ico",
   "dependencies": {
+    "@apollo/client": "^3.7.9",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.10",
+    "graphql": "^16.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1"
   },
