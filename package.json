@@ -2,6 +2,10 @@
   "name": "app",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Razvi"
+  },
+  "description": "A simple Electron & CRA app.",
   "main": "electron/electron.js",
   "homepage": "./",
   "icon": "public/favicon.ico",
@@ -30,6 +34,23 @@
     "wait-on": "^7.0.1"
   },
   "build": {
+    "appId": "com.example.electron-cra",
+    "directories":{
+      "buildResources": "assets"
+    },
+    "extends": null,
+    "files": [
+      "node_modules/**/*",
+      "dist/**/*",
+      "build/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "publish": {
+      "provider": "github",
+      "private": true,
+      "owner": "RazvanCretu"
+    },
     "mac": {
       "publish": {
         "provider": "github",
@@ -47,16 +68,6 @@
         "private": true,
         "token": "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"
       }
-    },
-    "files": [
-      "dist/**/*",
-      "build/**/*",
-      "node_modules/**/*"
-    ],
-    "publish": {
-      "provider": "github",
-      "private": true,
-      "owner": "RazvanCretu"
     }
   },
   "scripts": {
@@ -66,7 +77,7 @@
     "eject": "react-scripts eject",
     "dev": "concurrently -k \"npm start\" \"npm:electron\"",
     "electron": "wait-on tcp:3000 && set ELECTRON_START_URL=http://localhost:3000 && electron .",
-    "package": "electron-builder build --win -c.extraMetadata.main=build/electron.js --publish never",
+    "package": "electron-builder build --win -c.extraMetadata.main=electron/electron.js --publish never",
     "publish": "electron-builder build --win --publish always"
   },
   "eslintConfig": {
@@ -88,3 +99,4 @@
     ]
   }
 }
+
