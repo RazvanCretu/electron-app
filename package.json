@@ -2,7 +2,7 @@
   "name": "app",
   "version": "0.1.0",
   "private": true,
-  "main": "public/electron.js",
+  "main": "electron/electron.js",
   "homepage": "./",
   "icon": "public/favicon.ico",
   "dependencies": {
@@ -12,6 +12,9 @@
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.10",
+    "@nivo/bar": "^0.80.0",
+    "@nivo/core": "^0.80.0",
+    "@nivo/pie": "^0.80.0",
     "graphql": "^16.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -46,6 +49,7 @@
       }
     },
     "files": [
+      "dist/**/*",
       "build/**/*",
       "node_modules/**/*"
     ],
