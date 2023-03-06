@@ -64,7 +64,7 @@ const createWindow = () => {
   const startUrl =
     process.env.ELECTRON_START_URL ||
     url.format({
-      pathname: path.join(app.getAppPath(), "../build/index.html"),
+      pathname: path.join(app.getAppPath(), "/build/index.html"),
       protocol: "file:",
       slashes: true,
     });
