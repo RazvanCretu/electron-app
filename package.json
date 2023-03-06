@@ -72,14 +72,14 @@
     }
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "dev": "concurrently -k \"npm start\" \"npm:electron\"",
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "react-eject": "react-scripts eject",
+    "develeop": "concurrently -k \"npm react-start\" \"npm electron .\"",
     "electron": "wait-on tcp:3000 && set ELECTRON_START_URL=http://localhost:3000 && electron .",
-    "package": "electron-builder build --win -c.extraMetadata.main=electron/electron.js --publish never",
-    "publish": "electron-builder build --win --publish always"
+    "electron-package": "electron-builder build --win -c.extraMetadata.main=electron/electron.js --publish never",
+    "electron-publish": "electron-builder build --win --publish always"
   },
   "eslintConfig": {
     "extends": [
