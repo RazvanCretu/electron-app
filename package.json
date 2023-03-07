@@ -58,7 +58,7 @@
         "owner": "RazvanCretu",
         "repo": "electron-app",
         "private": true,
-        "token": "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"
+        "token": "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"
       }
     },
     "win": {
@@ -67,7 +67,7 @@
         "owner": "RazvanCretu",
         "repo": "electron-app",
         "private": true,
-        "token": "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"
+        "token": "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"
       }
     }
   },
@@ -81,6 +81,7 @@
     "electron-package": "electron-builder build --win -c.extraMetadata.main=electron/electron.js --publish never",
     "electron-publish": "electron-builder build --win --publish always"
   },
+  
   "eslintConfig": {
     "extends": [
       "react-app",
