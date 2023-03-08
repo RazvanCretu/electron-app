@@ -16,8 +16,10 @@ mac:
     provider: github
     owner: RazvanCretu
     repo: electron-app
+    token: ${env.GH_TOKEN}
 win:
   publish:
     provider: github
     owner: RazvanCretu
     repo: electron-app
+    token: ${env.GH_TOKEN}
