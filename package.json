@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "0.1.1",
+  "version": "0.1.102",
   "private": true,
   "author": {
     "name": "Razvi",
@@ -10,6 +10,16 @@
   "main": "electron/electron.js",
   "homepage": "./",
   "icon": "public/favicon.ico",
+  "scripts": {
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "react-eject": "react-scripts eject",
+    "develeop": "concurrently -k \"npm react-start\" \"npm electron .\"",
+    "electron": "wait-on tcp:3000 && set ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "electron-package": "electron-builder build --win -c.extraMetadata.main=electron/electron.js --publish never",
+    "electron-publish": "electron-builder build --win --config=electron-builder.yaml --publish always"
+  },
   "dependencies": {
     "@apollo/client": "^3.7.9",
     "@emotion/react": "^11.10.6",
@@ -34,54 +44,7 @@
     "electron-builder": "^23.6.0",
     "wait-on": "^7.0.1"
   },
-  "build": {
-    "appId": "com.example.electron-cra",
-    "directories": {
-      "buildResources": "assets"
-    },
-    "extends": null,
-    "files": [
-      "node_modules/**/*",
-      "dist/**/*",
-      "build/**/*",
-      "electron/**/*",
-      "package.json"
-    ],
-    "publish": {
-      "provider": "github",
-      "private": true,
-      "owner": "RazvanCretu"
-    },
-    "mac": {
-      "publish": {
-        "provider": "github",
-        "owner": "RazvanCretu",
-        "repo": "electron-app",
-        "private": true,
-        "token": "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"
-      }
-    },
-    "win": {
-      "publish": {
-        "provider": "github",
-        "owner": "RazvanCretu",
-        "repo": "electron-app",
-        "private": true,
-        "token": "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"
-      }
-    }
-  },
-  "scripts": {
-    "react-start": "react-scripts start",
-    "react-build": "react-scripts build",
-    "react-test": "react-scripts test",
-    "react-eject": "react-scripts eject",
-    "develeop": "concurrently -k \"npm react-start\" \"npm electron .\"",
-    "electron": "wait-on tcp:3000 && set ELECTRON_START_URL=http://localhost:3000 && electron .",
-    "electron-package": "electron-builder build --win -c.extraMetadata.main=electron/electron.js --publish never",
-    "electron-publish": "electron-builder build --win --publish always"
-  },
-  
+
   "eslintConfig": {
     "extends": [
       "react-app",
