@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "0.1.103",
+  "version": "0.1.104",
   "private": true,
   "author": {
     "name": "Razvi",
@@ -17,8 +17,8 @@
     "react-eject": "react-scripts eject",
     "develeop": "concurrently -k \"npm react-start\" \"npm electron .\"",
     "electron": "wait-on tcp:3000 && set ELECTRON_START_URL=http://localhost:3000 && electron .",
-    "electron-package": "electron-builder --config=electron-builder.yaml --win --publish never",
-    "electron-publish": "electron-builder --config=electron-builder.yaml --win --publish always"
+    "electron-package": "electron-builder -c=electron-builder.yaml -p never --win",
+    "electron-publish": "electron-builder -c=electron-builder.yaml -p always --win"
   },
   "dependencies": {
     "@apollo/client": "^3.7.9",
