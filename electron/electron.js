@@ -11,9 +11,11 @@ const {
 } = require("electron");
 const path = require("path");
 const url = require("url");
-const { handleWindowOpen } = require("./utils");
+const fs = require("fs");
+const { handleWindowOpen, transformCsvData } = require("./utils");
 const UserData = require("./userData");
 const isDev = require("electron-is-dev");
+const { parse } = require("csv");
 
 let win;
 Menu.setApplicationMenu(null);
@@ -46,7 +48,30 @@ const handleFileOpen = async () => {
   }
 };
 
-console.log(app.getPath("userData"));
+const handleCsvOpen = async () => {
+  const { canceled, filePaths } = await dialog.showOpenDialog(win, {
+    title: "Choose a .csv file to open",
+    filters: [{ name: "Csv", extensions: ["csv"] }],
+    properties: ["openFile"],
+  });
+  if (canceled) {
+    return;
+  } else {
+    let _ = [];
+    fs.createReadStream(filePaths[0])
+      .pipe(parse({ delimiter: "," }))
+      .on("data", function (row) {
+        _.push(row);
+      })
+      .on("end", function () {
+        if (_.length !== 0) {
+          const data = transformCsvData(_);
+          win.webContents.send("data:csv", data);
+        }
+      });
+  }
+};
+// console.log(app.getPath("userData"));
 
 const createWindow = () => {
   // === Creates the browser window. ===
@@ -71,15 +96,14 @@ const createWindow = () => {
 
   // win.removeMenu();
   // Load HTML of the app.
-  console.log(startUrl);
+  // console.log(startUrl);
   win.loadURL(startUrl);
 
   win.webContents.setWindowOpenHandler(handleWindowOpen);
 
   // Open the DevTools.
-  if (isDev) {
-    win.webContents.openDevTools({ mode: "detach" });
-  }
+
+  win.webContents.openDevTools({ mode: "detach" });
 
   // Emitted when the window is closed.
   win.on("closed", function () {
@@ -115,6 +139,7 @@ if (!gotTheLock) {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   app.whenReady().then(() => {
+    ipcMain.handle("dialog:openCsv", handleCsvOpen);
     ipcMain.handle("dialog:openFile", handleFileOpen);
     ipcMain.on("window:close", handleWindowClose);
     ipcMain.on("window:minimize", () => win?.minimize());

@@ -1,10 +1,13 @@
-const { remote, ipcRenderer, contextBridge } = require("electron");
+const { ipcRenderer, contextBridge } = require("electron");
 
 contextBridge.exposeInMainWorld("electron", {
-  ipc: ipcRenderer,
-  handleToken: (channel, func) => {
-    ipcRenderer.on("token", (event, ...args) => func(...args));
+  handleToken: (channel, cb) => {
+    ipcRenderer.on("token", (event, ...args) => cb(...args));
   },
+  handleData: (cb) => {
+    ipcRenderer.on("data:csv", (event, ...args) => cb(...args));
+  },
+  openCsv: () => ipcRenderer.invoke("dialog:openCsv"),
   openFile: () => ipcRenderer.invoke("dialog:openFile"),
   close: () => ipcRenderer.send("window:close"),
   minimize: () => ipcRenderer.send("window:minimize"),
