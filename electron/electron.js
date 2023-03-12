@@ -12,7 +12,7 @@ const {
 const path = require("path");
 const url = require("url");
 const fs = require("fs");
-const { handleWindowOpen, transformCsvData } = require("./utils");
+const { handleWindowOpen, transformCsvData, readCsvData } = require("./utils");
 const UserData = require("./userData");
 const isDev = require("electron-is-dev");
 const { parse } = require("csv");
@@ -57,18 +57,12 @@ const handleCsvOpen = async () => {
   if (canceled) {
     return;
   } else {
-    let _ = [];
-    fs.createReadStream(filePaths[0])
-      .pipe(parse({ delimiter: "," }))
-      .on("data", function (row) {
-        _.push(row);
-      })
-      .on("end", function () {
-        if (_.length !== 0) {
-          const data = transformCsvData(_);
-          win.webContents.send("data:csv", data);
-        }
-      });
+    try {
+      const data = await readCsvData(filePaths[0]);
+      return transformCsvData(data);
+    } catch (err) {
+      console.log(err);
+    }
   }
 };
 // console.log(app.getPath("userData"));
@@ -162,10 +156,10 @@ if (!gotTheLock) {
 }
 
 // ########## MAC OS ##########
-
 app.on("open-url", (event, url) => {
   dialog.showErrorBox("Welcome Back", `You arrived from: ${url}`);
 });
+
 // Quit when all windows are closed, except on MAC OS. It's common
 // for applications and their menu bars to stay active until the user quits
 // explicitly with Cmd + Q.
