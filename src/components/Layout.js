@@ -7,6 +7,18 @@ import {
 import { Outlet } from "react-router-dom";
 import SideMenu from "./SideMenu";
 import { useAuth } from "../contexts/auth";
+import { styled } from "@mui/material/styles";
+
+const StyledContainer = styled(Container)(({ theme }) => ({
+  margin: 0,
+  paddingTop: "5vh",
+  paddingLeft: "160px",
+  height: "800px",
+  minHeight: "100vh",
+  [theme.breakpoints.up("lg")]: {
+    maxWidth: "unset",
+  },
+}));
 
 const Layout = () => {
   const { data } = useAuth();
@@ -69,19 +81,9 @@ const Layout = () => {
         </IconButton>
       </AppBar>
       <SideMenu />
-      <Container
-        sx={{
-          margin: 0,
-          paddingTop: "5vh",
-          paddingLeft: "160px",
-          height: "800px",
-          minHeight: "100vh",
-        }}
-        component="main"
-        disableGutters
-      >
+      <StyledContainer component="main" disableGutters>
         <Outlet />
-      </Container>
+      </StyledContainer>
     </>
   );
 };
