@@ -99,9 +99,9 @@ const Home = () => {
         style={{ display: "none" }}
       />
       {file && <Typography>{file.path}</Typography>}
-      <Button variant="contained" onClick={handleOpenFile}>
+      {/* <Button variant="contained" onClick={handleOpenFile}>
         Open Files
-      </Button>
+      </Button> */}
       <BarChart />
     </Box>
   );
