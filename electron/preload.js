@@ -4,9 +4,6 @@ contextBridge.exposeInMainWorld("electron", {
   handleToken: (channel, cb) => {
     ipcRenderer.on("token", (event, ...args) => cb(...args));
   },
-  handleData: (cb) => {
-    ipcRenderer.on("data:csv", (event, ...args) => cb(...args));
-  },
   openCsv: () => ipcRenderer.invoke("dialog:openCsv"),
   openFile: () => ipcRenderer.invoke("dialog:openFile"),
   close: () => ipcRenderer.send("window:close"),
