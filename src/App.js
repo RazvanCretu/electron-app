@@ -3,7 +3,6 @@ import Home from "./screens/Home";
 import Search from "./screens/Search";
 import Settings from "./screens/Settings";
 import LogIn from "./screens/LogIn";
-import Succes from "./screens/Succes";
 import Layout from "./components/Layout";
 import ProtectedLayout from "./components/ProtectedLayout";
 
@@ -14,7 +13,6 @@ function App() {
         <Route index element={<Home />} />
         <Route path="search" element={<Search />} />
         <Route path="login" element={<LogIn />} />
-        <Route path="succes" element={<Succes />} />
         <Route element={<ProtectedLayout />}>
           <Route path="settings" element={<Settings />} />
         </Route>
