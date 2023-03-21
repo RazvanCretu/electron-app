@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "author": {
     "name": "Razvi",
@@ -16,7 +16,7 @@
     "react-test": "react-scripts test",
     "react-eject": "react-scripts eject",
     "develop": "concurrently -k \"npm run react-start\" \"npm:electron\"",
-    "electron": "wait-on tcp:3000 && set ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "electron": "wait-on http://127.0.0.1:3000 && set ELECTRON_START_URL=http://localhost:3000 && electron .",
     "electron-package": "electron-builder -c=electron-builder.yaml -p never --win",
     "electron-publish": "electron-builder -c=electron-builder.yaml -p always --win"
   },
@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "concurrently": "^7.6.0",
-    "electron": "^23.1.1",
+    "electron": "^23.1.4",
     "electron-builder": "^23.6.0",
     "wait-on": "^7.0.1"
   },
