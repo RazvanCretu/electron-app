@@ -51,43 +51,73 @@ const BarChart = () => {
     }
   };
 
-  const getBarChartData = useMemo(() => {
+  const dataChart = useMemo(() => {
     if (x && y) {
-      return agregate(csvData, by, x, y);
+      const barData = agregate(csvData, by, x, y);
+
+      const labels = barData.reduce((acc, item) => {
+        const isItem = acc.filter((i) => i === item.x)[0];
+
+        if (!isItem) {
+          acc.push(item.x);
+        }
+
+        return acc;
+      }, []);
+
+      const groupedData =
+        by &&
+        barData.reduce((acc, item) => {
+          const isGroupItem = acc[item.group];
+          if (isGroupItem) {
+            acc[item.group].push(item);
+          } else {
+            acc[item.group] = [item];
+          }
+          return acc;
+        }, {});
+
+      groupedData &&
+        Object.keys(groupedData).forEach((item, i) => {
+          groupedData[item].sort((a, b) => {
+            return labels.indexOf(a.x) - labels.indexOf(b.x);
+          });
+        });
+
+      return {
+        // X Axis
+        labels: labels,
+        // Y Axis
+        datasets: by
+          ? Object.keys(groupedData).map((el, i) => ({
+              label: el,
+              data: labels.map((label) => {
+                const index = groupedData[el].findIndex(
+                  (item) => item.x === label
+                );
+                if (index !== -1 && groupedData[el][index].x === label) {
+                  return groupedData[el][index].y;
+                }
+                return null;
+              }),
+              backgroundColor: randColor(i),
+            }))
+          : [
+              {
+                label: "",
+                data: barData.map((item) => item.y),
+                backgroundColor: randColor(Math.random() * 360),
+              },
+            ],
+      };
+    } else {
+      return {
+        labels: [],
+        datasets: [],
+      };
     }
   }, [csvData, by, x, y]);
 
-  const barData = getBarChartData || [];
-
-  const labels = barData.reduce((acc, item) => {
-    const isItem = acc.filter((i) => i === item.x)[0];
-
-    if (!isItem) {
-      acc.push(item.x);
-    }
-
-    return acc;
-  }, []);
-
-  const groupedData =
-    by &&
-    barData.reduce((acc, item) => {
-      const isGroupItem = acc[item.group];
-      if (isGroupItem) {
-        acc[item.group].push(item);
-      } else {
-        acc[item.group] = [item];
-      }
-      return acc;
-    }, {});
-
-  // Sort 'inplace' all the grouped datasets to respect the order of the Labels
-  Object.keys(groupedData).forEach((item, i) => {
-    groupedData[item].sort((a, b) => {
-      return labels.indexOf(a.x) - labels.indexOf(b.x);
-    });
-  });
-  // console.log(groupedData);
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -105,36 +135,6 @@ const BarChart = () => {
         },
       },
     },
-  };
-
-  const dataChart = {
-    // X Axis
-    labels: labels,
-    // Y Axis
-    datasets: by
-      ? Object.keys(groupedData).map((el, i) => ({
-          label: el,
-          // data: groupedData[el].map((item) => item.y),
-          data: labels.map((label) => {
-            const index = groupedData[el].findIndex((item) => item.x === label);
-            if (
-              index !== -1 &&
-              groupedData[el][index].x === label
-              // groupedData[el][index].group === el
-            ) {
-              return groupedData[el][index].y;
-            }
-            return null;
-          }),
-          backgroundColor: randColor(i),
-        }))
-      : [
-          {
-            label: "",
-            data: barData.map((item) => item.y),
-            backgroundColor: randColor(Math.random() * 360),
-          },
-        ],
   };
 
   return (
