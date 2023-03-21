@@ -19,11 +19,12 @@ const readCsvData = (path) => {
   return new Promise((resolve, reject) => {
     fs.createReadStream(path)
       .on("error", (err) => reject(err))
-      .pipe(parse({ delimiter: "," }))
+      .pipe(parse({ delimiter: ",", columns: true }))
       .on("data", function (row) {
         _.push(row);
       })
       .on("end", () => {
+        // _ = transformCsvData(_);
         resolve(_);
         // win.webContents.send("data:csv", data);
       });

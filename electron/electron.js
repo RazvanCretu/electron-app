@@ -11,11 +11,9 @@ const {
 } = require("electron");
 const path = require("path");
 const url = require("url");
-const fs = require("fs");
-const { handleWindowOpen, transformCsvData, readCsvData } = require("./utils");
+const { handleWindowOpen, readCsvData } = require("./utils");
 const UserData = require("./userData");
 const isDev = require("electron-is-dev");
-const { parse } = require("csv");
 
 let win;
 Menu.setApplicationMenu(null);
@@ -59,7 +57,7 @@ const handleCsvOpen = async () => {
   } else {
     try {
       const data = await readCsvData(filePaths[0]);
-      return transformCsvData(data);
+      return data;
     } catch (err) {
       console.log(err);
     }
@@ -108,6 +106,7 @@ const createWindow = () => {
 const gotTheLock = app.requestSingleInstanceLock();
 
 if (!gotTheLock) {
+  console.log("Got no lock");
   app.quit();
 } else {
   app.on("second-instance", (event, commandLine, workingDirectory) => {
@@ -132,27 +131,30 @@ if (!gotTheLock) {
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
-  app.whenReady().then(() => {
-    ipcMain.handle("dialog:openCsv", handleCsvOpen);
-    ipcMain.handle("dialog:openFile", handleFileOpen);
-    ipcMain.on("window:close", handleWindowClose);
-    ipcMain.on("window:minimize", () => win?.minimize());
-    ipcMain.on("window:maximize", () => {
-      if (win?.isMaximized()) {
-        win.unmaximize();
-      } else {
-        win.maximize();
-      }
-    });
+  app
+    .whenReady()
+    .then(() => {
+      createWindow();
 
-    createWindow();
-
-    app.on("activate", () => {
-      if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow();
-      }
+      app.on("activate", () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+          createWindow();
+        }
+      });
+    })
+    .then(() => {
+      ipcMain.handle("dialog:openCsv", handleCsvOpen);
+      ipcMain.handle("dialog:openFile", handleFileOpen);
+      ipcMain.on("window:close", handleWindowClose);
+      ipcMain.on("window:minimize", () => win?.minimize());
+      ipcMain.on("window:maximize", () => {
+        if (win?.isMaximized()) {
+          win.unmaximize();
+        } else {
+          win.maximize();
+        }
+      });
     });
-  });
 }
 
 // ########## MAC OS ##########
