@@ -6,6 +6,7 @@ import {
   setX,
   setY,
   setBy,
+  setTitle,
 } from "../../store/barChartSlice";
 import { IconButton, Box, Typography, TextField, Divider } from "@mui/material";
 import { SaveRounded, FileOpenRounded } from "@mui/icons-material";
@@ -39,15 +40,15 @@ const randColor = (i) => {
 };
 
 const BarChart = () => {
-  const [chartTitle, setChartTitle] = useState("");
-  const { x, y, by } = useSelector(getBarChartSettings);
-  const { data: csvData, loading, error } = useSelector(getLocalData);
-  const dispatch = useDispatch();
   const ref = useRef();
+  const dispatch = useDispatch();
+  const { x, y, by, title } = useSelector(getBarChartSettings);
+  const { data: csvData, loading, error } = useSelector(getLocalData);
 
   const handleTitleChange = (e) => {
     if (e.key === "Enter") {
-      setChartTitle(e.target.value);
+      dispatch(setTitle(e.target.value));
+      setTitle(e.target.value);
     }
   };
 
@@ -125,11 +126,11 @@ const BarChart = () => {
     plugins: {
       legend: {
         display: by ? true : false,
-        position: "top",
+        position: "bottom",
       },
       title: {
-        display: chartTitle ? true : false,
-        text: chartTitle,
+        display: !!title,
+        text: title,
         font: {
           size: 16,
         },
@@ -138,17 +139,13 @@ const BarChart = () => {
   };
 
   return (
-    <Box
-      sx={{
-        padding: "1rem 1rem",
-      }}
-    >
+    <>
       <Box
         sx={{
           maxWidth: "100%",
-          maxHeight: "60%",
+          height: "60%",
           position: "relative",
-          margin: "0 auto",
+          padding: "1rem 0",
           canvas: {
             aspectRatio: "auto / auto",
             width: "100% !important",
@@ -187,40 +184,42 @@ const BarChart = () => {
         />
       </Box>
       {csvData && <Typography>Loaded {csvData.length} entries.</Typography>}
-      <TextField
-        sx={{ m: "8px" }}
-        id="standard-basic"
-        label="Title"
-        variant="standard"
-        onKeyUp={handleTitleChange}
-      />
-      <IconButton
-        size="small"
-        variant="outlined"
-        onClick={() => dispatch(readLocalData())}
-      >
-        <FileOpenRounded />
-      </IconButton>
-      <Divider sx={{ margin: "1rem auto" }} />
-      <SelectField
-        name="by"
-        selectItems={csvData.length > 0 && Object.keys(csvData[0])}
-        value={by}
-        onChange={(e) => dispatch(setBy(e.target.value))}
-      />
-      <SelectField
-        name="x"
-        selectItems={csvData.length > 0 && Object.keys(csvData[0])}
-        value={x}
-        onChange={(e) => dispatch(setX(e.target.value))}
-      />
-      <SelectField
-        name="y"
-        selectItems={csvData.length > 0 && Object.keys(csvData[0])}
-        value={y}
-        onChange={(e) => dispatch(setY(e.target.value))}
-      />
-    </Box>
+      <Box>
+        <TextField
+          sx={{ m: "8px" }}
+          id="standard-basic"
+          label="Title"
+          variant="standard"
+          onKeyUp={handleTitleChange}
+        />
+        <IconButton
+          size="small"
+          variant="outlined"
+          onClick={() => dispatch(readLocalData())}
+        >
+          <FileOpenRounded />
+        </IconButton>
+        <Divider sx={{ margin: "1rem auto" }} />
+        <SelectField
+          name="by"
+          selectItems={csvData.length > 0 && Object.keys(csvData[0])}
+          value={by}
+          onChange={(e) => dispatch(setBy(e.target.value))}
+        />
+        <SelectField
+          name="x"
+          selectItems={csvData.length > 0 && Object.keys(csvData[0])}
+          value={x}
+          onChange={(e) => dispatch(setX(e.target.value))}
+        />
+        <SelectField
+          name="y"
+          selectItems={csvData.length > 0 && Object.keys(csvData[0])}
+          value={y}
+          onChange={(e) => dispatch(setY(e.target.value))}
+        />
+      </Box>
+    </>
   );
 };
 
