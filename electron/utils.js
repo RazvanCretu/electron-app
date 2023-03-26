@@ -24,26 +24,24 @@ const readCsvData = (path) => {
         _.push(row);
       })
       .on("end", () => {
-        // _ = transformCsvData(_);
         resolve(_);
-        // win.webContents.send("data:csv", data);
       });
   });
 };
 
-const transformCsvData = (data) => {
-  const [columns, ...rows] = data;
-  return rows.map((item) => {
-    let itemData = {};
-    item.forEach((val, i, arr) => {
-      itemData[columns[i]] = val;
-    });
-    return itemData;
-  });
-};
+// const transformCsvData = (data) => {
+//   const [columns, ...rows] = data;
+//   return rows.map((item) => {
+//     let itemData = {};
+//     item.forEach((val, i, arr) => {
+//       itemData[columns[i]] = val;
+//     });
+//     return itemData;
+//   });
+// };
 
 module.exports = {
   handleWindowOpen,
   readCsvData,
-  transformCsvData,
+  // transformCsvData,
 };
