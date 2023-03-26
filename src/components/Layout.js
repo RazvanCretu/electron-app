@@ -13,8 +13,8 @@ const StyledContainer = styled(Container)(({ theme }) => ({
   margin: 0,
   paddingTop: "5vh",
   paddingLeft: "160px",
-  height: "800px",
-  minHeight: "100vh",
+  // height: "800px",
+  height: "100vh",
   [theme.breakpoints.up("lg")]: {
     maxWidth: "unset",
   },

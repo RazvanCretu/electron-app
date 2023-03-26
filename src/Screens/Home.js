@@ -70,35 +70,40 @@ import { FileOpenRounded } from "@mui/icons-material";
 // ];
 
 const Home = () => {
-  const [file, setFile] = useState();
-  const inFileRef = useRef();
+  // const [file, setFile] = useState();
+  // const inFileRef = useRef();
 
-  const handleOpenFile = async () => {
-    // inFileRef.current.click();
-    const dir = await window.showDirectoryPicker();
+  // const handleOpenFile = async () => {
+  //   // inFileRef.current.click();
+  //   const dir = await window.showDirectoryPicker();
 
-    console.log(dir);
+  //   console.log(dir);
 
-    for await (const entry of dir.values()) {
-      console.log(entry.kind, entry.name, entry);
-    }
-  };
+  //   for await (const entry of dir.values()) {
+  //     console.log(entry.kind, entry.name, entry);
+  //   }
+  // };
 
-  const handleChangeFile = (e) => {
-    e.preventDefault();
-    console.log(e.target.directory);
-    setFile(e.target.files);
-  };
+  // const handleChangeFile = (e) => {
+  //   e.preventDefault();
+  //   console.log(e.target.directory);
+  //   setFile(e.target.files);
+  // };
 
   return (
-    <Box>
-      <input
+    <Box
+      sx={{
+        height: "100%",
+        padding: "0 1rem",
+      }}
+    >
+      {/* <input
         type="file"
         ref={inFileRef}
         onChange={handleChangeFile}
         style={{ display: "none" }}
       />
-      {file && <Typography>{file.path}</Typography>}
+      {file && <Typography>{file.path}</Typography>} */}
       {/* <Button variant="contained" onClick={handleOpenFile}>
         Open Files
       </Button> */}
