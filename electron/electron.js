@@ -63,10 +63,9 @@ const handleCsvOpen = async () => {
     }
   }
 };
-// console.log(app.getPath("userData"));
 
 const createWindow = () => {
-  // === Creates the browser window. ===
+  // Creates the browser window.
   win = new BrowserWindow({
     minHeight: 800,
     minWidth: 1200,
@@ -86,15 +85,11 @@ const createWindow = () => {
       slashes: true,
     });
 
-  // win.removeMenu();
   // Load HTML of the app.
-  // console.log(startUrl);
   win.loadURL(startUrl);
-
   win.webContents.setWindowOpenHandler(handleWindowOpen);
 
   // Open the DevTools.
-
   win.webContents.openDevTools({ mode: "detach" });
 
   // Emitted when the window is closed.
@@ -106,7 +101,6 @@ const createWindow = () => {
 const gotTheLock = app.requestSingleInstanceLock();
 
 if (!gotTheLock) {
-  console.log("Got no lock");
   app.quit();
 } else {
   app.on("second-instance", (event, commandLine, workingDirectory) => {
@@ -120,12 +114,6 @@ if (!gotTheLock) {
 
       win.webContents.send("token", token);
     }
-    // the commandLine is array of strings in which last element is deep link url
-    // the url str ends with /
-    // dialog.showErrorBox(
-    //   "Welcome Back",
-    //   `You arrived from: ${commandLine.pop().slice(0, -1)}`
-    // );
   });
 
   // This method will be called when Electron has finished
