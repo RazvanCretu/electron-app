@@ -13,6 +13,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { Auth } from "./contexts/auth";
+import Theme from "./theme";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -20,15 +21,17 @@ root.render(
     <Provider store={store}>
       <Router>
         <ApolloProvider client={client}>
-          <GlobalStyles
-            styles={{
-              body: {
-                margin: 0,
-              },
-            }}
-          />
           <Auth>
-            <App />
+            <GlobalStyles
+              styles={{
+                body: {
+                  margin: 0,
+                },
+              }}
+            />
+            <Theme>
+              <App />
+            </Theme>
           </Auth>
         </ApolloProvider>
       </Router>
