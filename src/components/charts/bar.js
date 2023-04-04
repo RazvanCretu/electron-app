@@ -1,15 +1,9 @@
-import { useCallback, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getLocalData, readLocalData } from "../../store/localDataSlice";
-import {
-  getBarChartSettings,
-  setX,
-  setY,
-  setBy,
-  setTitle,
-} from "../../store/barChartSlice";
-import { IconButton, Box, Typography, TextField, Divider } from "@mui/material";
-import { SaveRounded, FileOpenRounded } from "@mui/icons-material";
+import { useMemo, useRef } from "react";
+import { useSelector } from "react-redux";
+import { getLocalData } from "../../store/localDataSlice";
+import { getBarChartSettings } from "../../store/barChartSlice";
+import { IconButton, Box } from "@mui/material";
+import { SaveRounded } from "@mui/icons-material";
 // ChartJS charting library
 import {
   Chart as ChartJS,
@@ -22,7 +16,6 @@ import {
   Legend,
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
-import SelectField from "../Select";
 
 ChartJS.register(
   CategoryScale,
@@ -41,16 +34,8 @@ const randColor = (i) => {
 
 const BarChart = () => {
   const ref = useRef();
-  const dispatch = useDispatch();
   const { x, y, by, title } = useSelector(getBarChartSettings);
-  const { data: csvData, loading, error } = useSelector(getLocalData);
-
-  const handleTitleChange = (e) => {
-    if (e.key === "Enter") {
-      dispatch(setTitle(e.target.value));
-      setTitle(e.target.value);
-    }
-  };
+  const { data: csvData } = useSelector(getLocalData);
 
   const dataChart = useMemo(() => {
     if (x && y) {
@@ -88,6 +73,7 @@ const BarChart = () => {
       return {
         // X Axis
         labels: labels,
+
         // Y Axis
         datasets: by
           ? Object.keys(groupedData).map((el, i) => ({
@@ -101,6 +87,7 @@ const BarChart = () => {
                 }
                 return null;
               }),
+              color: "rgba(255,255,255,1)",
               backgroundColor: randColor(i),
             }))
           : [
@@ -123,6 +110,25 @@ const BarChart = () => {
     responsive: true,
     maintainAspectRatio: false,
     skipNull: true,
+    color: "rgba(255,255,255,.75)",
+    scales: {
+      x: {
+        grid: {
+          color: "rgba(255,255,255,.3)",
+        },
+        ticks: {
+          color: "rgba(255,255,255,.75)",
+        },
+      },
+      y: {
+        grid: {
+          color: "rgba(255,255,255,.3)",
+        },
+        ticks: {
+          color: "rgba(255,255,255,.75)",
+        },
+      },
+    },
     plugins: {
       legend: {
         display: by ? true : false,
@@ -131,6 +137,7 @@ const BarChart = () => {
       title: {
         display: !!title,
         text: title,
+        color: "rgba(255,255,255,.85)",
         font: {
           size: 16,
         },
@@ -143,7 +150,7 @@ const BarChart = () => {
       <Box
         sx={{
           maxWidth: "100%",
-          height: "60%",
+          minHeight: "60%",
           position: "relative",
           padding: "1rem 0",
           canvas: {
@@ -181,42 +188,6 @@ const BarChart = () => {
           options={options}
           data={dataChart}
           ref={ref}
-        />
-      </Box>
-      {csvData && <Typography>Loaded {csvData.length} entries.</Typography>}
-      <Box>
-        <TextField
-          sx={{ m: "8px" }}
-          id="standard-basic"
-          label="Title"
-          variant="standard"
-          onKeyUp={handleTitleChange}
-        />
-        <IconButton
-          size="small"
-          variant="outlined"
-          onClick={() => dispatch(readLocalData())}
-        >
-          <FileOpenRounded />
-        </IconButton>
-        <Divider sx={{ margin: "1rem auto" }} />
-        <SelectField
-          name="by"
-          selectItems={csvData.length > 0 && Object.keys(csvData[0])}
-          value={by}
-          onChange={(e) => dispatch(setBy(e.target.value))}
-        />
-        <SelectField
-          name="x"
-          selectItems={csvData.length > 0 && Object.keys(csvData[0])}
-          value={x}
-          onChange={(e) => dispatch(setX(e.target.value))}
-        />
-        <SelectField
-          name="y"
-          selectItems={csvData.length > 0 && Object.keys(csvData[0])}
-          value={y}
-          onChange={(e) => dispatch(setY(e.target.value))}
         />
       </Box>
     </>
