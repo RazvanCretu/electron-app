@@ -13,7 +13,7 @@ const StyledContainer = styled(Container)(({ theme }) => ({
   margin: 0,
   paddingTop: "5vh",
   paddingLeft: "160px",
-  // height: "800px",
+  background: theme.palette.darkGrey.main,
   height: "100vh",
   [theme.breakpoints.up("lg")]: {
     maxWidth: "unset",
@@ -35,7 +35,7 @@ const Layout = () => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "end",
-          backgroundColor: "background.paper",
+          backgroundColor: "darkGrey.darker",
           zIndex: "1101",
           WebkitAppRegion: "drag",
           button: {

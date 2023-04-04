@@ -35,7 +35,7 @@ const SideMenu = () => {
         marginTop: "5vh",
         height: "100%",
         left: 0,
-        backgroundColor: "lightsalmon",
+        backgroundColor: "darkGrey.dark",
         width: "100%",
         maxWidth: 160,
       }}
@@ -44,22 +44,18 @@ const SideMenu = () => {
         component="nav"
         sx={{
           width: "100%",
+          pt: "0px",
           "& .active": {
             bgcolor: "red",
           },
         }}
-        aria-labelledby="subheader"
-        subheader={
-          <ListSubheader component="div" id="subheader">
-            Menu
-          </ListSubheader>
-        }
+        aria-label="menu"
       >
-        <ListItemButton to="/" component={NavLink}>
+        <ListItemButton to="/dashboard" component={NavLink}>
           <ListItemIcon sx={{ minWidth: "36px" }}>
             <HouseRounded fontSize="small" />
           </ListItemIcon>
-          <StyledListItemText primary="Home" />
+          <StyledListItemText primary="Dashboard" />
         </ListItemButton>
         <ListItemButton to="/search" component={NavLink}>
           <ListItemIcon sx={{ minWidth: "36px" }}>
