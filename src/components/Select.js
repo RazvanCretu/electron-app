@@ -2,15 +2,17 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 const SelectField = ({ name, selectItems, value, onChange }) => {
   return (
-    <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} size="small">
-      <InputLabel id={name}>
-        {name.charAt(0).toUpperCase() + name.slice(1)}
-      </InputLabel>
+    <FormControl
+      variant="standard"
+      sx={{ mr: 1, minWidth: "30%" }}
+      size="small"
+    >
+      <InputLabel id={name}>{name}</InputLabel>
       <Select
         labelId={name}
         id={name}
         value={value}
-        label={name.charAt(0).toUpperCase() + name.slice(1)}
+        label={name}
         onChange={onChange}
       >
         <MenuItem value={""}>

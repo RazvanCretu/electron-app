@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import BarChart from "../components/charts/bar";
+import Bar from "../components/charts/bar";
 import Controls from "../components/charts/bar/controls";
 
 const Dashboard = () => {
@@ -7,12 +7,12 @@ const Dashboard = () => {
     <Box
       sx={{
         display: "flex",
-        flexFlow: "column",
+        flexDirection: "column",
         height: "100%",
         padding: "0 1rem",
       }}
     >
-      <BarChart />
+      <Bar />
       <Controls />
     </Box>
   );

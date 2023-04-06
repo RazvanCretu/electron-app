@@ -51,12 +51,6 @@ const SideMenu = () => {
         }}
         aria-label="menu"
       >
-        <ListItemButton to="/dashboard" component={NavLink}>
-          <ListItemIcon sx={{ minWidth: "36px" }}>
-            <HouseRounded fontSize="small" />
-          </ListItemIcon>
-          <StyledListItemText primary="Dashboard" />
-        </ListItemButton>
         <ListItemButton to="/search" component={NavLink}>
           <ListItemIcon sx={{ minWidth: "36px" }}>
             <SearchRounded fontSize="small" />
@@ -64,12 +58,20 @@ const SideMenu = () => {
           <StyledListItemText primary="Search" />
         </ListItemButton>
         {isAuthenticated && (
-          <ListItemButton to="/settings" component={NavLink}>
-            <ListItemIcon sx={{ minWidth: "36px" }}>
-              <SettingsRounded fontSize="small" />
-            </ListItemIcon>
-            <StyledListItemText primary="Settings" />
-          </ListItemButton>
+          <>
+            <ListItemButton to="/dashboard" component={NavLink}>
+              <ListItemIcon sx={{ minWidth: "36px" }}>
+                <HouseRounded fontSize="small" />
+              </ListItemIcon>
+              <StyledListItemText primary="Dashboard" />
+            </ListItemButton>
+            <ListItemButton to="/settings" component={NavLink}>
+              <ListItemIcon sx={{ minWidth: "36px" }}>
+                <SettingsRounded fontSize="small" />
+              </ListItemIcon>
+              <StyledListItemText primary="Settings" />
+            </ListItemButton>
+          </>
         )}
         <Divider />
         {isAuthenticated ? (
