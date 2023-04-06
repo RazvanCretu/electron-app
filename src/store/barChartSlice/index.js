@@ -5,6 +5,7 @@ const initialState = {
   x: "",
   y: "",
   title: "",
+  legend: true,
 };
 
 const barChartSlice = createSlice({
@@ -23,12 +24,15 @@ const barChartSlice = createSlice({
     setTitle: (state, action) => {
       state.title = action.payload;
     },
+    setLegend: (state, action) => {
+      state.legend = action.payload;
+    },
   },
   extraReducers: (builder) => {},
 });
 
 // Actions
-export const { setX, setY, setBy, setTitle } = barChartSlice.actions;
+export const { setX, setY, setBy, setTitle, setLegend } = barChartSlice.actions;
 
 // Selectors
 export const getBarChartSettings = (state) => state.barChart;
