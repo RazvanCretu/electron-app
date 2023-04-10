@@ -1,6 +1,7 @@
 {
   "name": "chartr",
-  "version": "0.0.9",
+  "productName": "Chartr",
+  "version": "0.0.11",
   "private": true,
   "author": {
     "name": "Razvi",
@@ -9,7 +10,6 @@
   "description": "A simple Electron & CRA app.",
   "main": "electron/electron.js",
   "homepage": "./",
-  "icon": "public/favicon.ico",
   "scripts": {
     "react-start": "react-scripts start",
     "react-build": "react-scripts build",
@@ -17,8 +17,8 @@
     "react-eject": "react-scripts eject",
     "develop": "concurrently -k \"npm run react-start\" \"npm:electron\"",
     "electron": "wait-on http://127.0.0.1:3000 && set ELECTRON_START_URL=http://localhost:3000 && electron .",
-    "electron-package": "electron-builder -c=electron-builder.yaml -p never --win",
-    "electron-publish": "electron-builder -c=electron-builder.yaml -p always --win"
+    "electron-package": "electron-builder -c=builder.config.js -p never --win",
+    "electron-publish": "electron-builder -c=builder.config.js -p always --win"
   },
   "dependencies": {
     "@apollo/client": "^3.7.9",
@@ -55,14 +55,10 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "last 1 electron version"
     ],
     "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 electron version"
     ]
   }
 }
