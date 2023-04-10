@@ -43,18 +43,34 @@ const Bar = () => {
             aspectRatio: "auto / auto",
             width: "100% !important",
             height: "100% !important",
+            "&:hover + .MuiButtonBase-root": {
+              display: "inline-flex",
+            },
           },
-          "&:hover .MuiButtonBase-root": {
-            display: "inline-flex",
-          },
+          // "&:hover .MuiButtonBase-root": {
+          //   display: "inline-flex",
+          // },
         }}
       >
+        {data.datasets.length !== 0 && (
+          <Chart
+            width={null}
+            height={null}
+            type="bar"
+            options={options}
+            data={data}
+            ref={ref}
+          />
+        )}
         <IconButton
           sx={{
             position: "absolute",
             top: "1.75rem",
             right: "1rem",
             display: "none",
+            "&:hover": {
+              display: "inline-flex",
+            },
           }}
           size="small"
           onClick={() => {
@@ -67,16 +83,6 @@ const Bar = () => {
         >
           <SaveRounded />
         </IconButton>
-        {data.datasets.length !== 0 && (
-          <Chart
-            width={null}
-            height={null}
-            type="bar"
-            options={options}
-            data={data}
-            ref={ref}
-          />
-        )}
       </Box>
     </>
   );
