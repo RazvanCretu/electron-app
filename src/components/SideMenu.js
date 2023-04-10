@@ -3,7 +3,6 @@ import { styled } from "@mui/material/styles";
 import {
   AppBar,
   List,
-  ListSubheader,
   ListItemIcon,
   ListItemText,
   ListItemButton,
@@ -18,7 +17,27 @@ import {
 } from "@mui/icons-material";
 import { useAuth } from "../contexts/auth";
 
-const StyledListItemText = styled(ListItemText)(({ theme }) => ({
+const Menu = styled(AppBar)(({ theme }) => ({
+  marginTop: "5vh",
+  height: "100%",
+  left: 0,
+  backgroundColor: theme.palette.darkGrey.dark,
+  width: "100%",
+  maxWidth: 160,
+}));
+
+const MenuList = styled(List)(({ theme }) => ({
+  width: "100%",
+  pt: "0px",
+  "& .active": {
+    color: theme.palette.darkGrey.light,
+    svg: {
+      color: theme.palette.darkGrey.light,
+    },
+  },
+}));
+
+const ListItemTextStyled = styled(ListItemText)(({ theme }) => ({
   "& .MuiTypography-root": {
     fontWeight: 500,
     fontSize: ".85rem",
@@ -26,71 +45,60 @@ const StyledListItemText = styled(ListItemText)(({ theme }) => ({
   },
 }));
 
+const MenuItem = ({ to, icon, primary, onClick, ButtonComponent }) => {
+  return (
+    <ListItemButton to={to} component={ButtonComponent} onClick={onClick}>
+      <ListItemIcon sx={{ minWidth: "36px" }}>{icon}</ListItemIcon>
+      <ListItemTextStyled primary={primary} />
+    </ListItemButton>
+  );
+};
+
 const SideMenu = () => {
   const { isAuthenticated, signOut } = useAuth();
 
   return (
-    <AppBar
-      sx={{
-        marginTop: "5vh",
-        height: "100%",
-        left: 0,
-        backgroundColor: "darkGrey.dark",
-        width: "100%",
-        maxWidth: 160,
-      }}
-    >
-      <List
-        component="nav"
-        sx={{
-          width: "100%",
-          pt: "0px",
-          "& .active": {
-            bgcolor: "red",
-          },
-        }}
-        aria-label="menu"
-      >
-        <ListItemButton to="/search" component={NavLink}>
-          <ListItemIcon sx={{ minWidth: "36px" }}>
-            <SearchRounded fontSize="small" />
-          </ListItemIcon>
-          <StyledListItemText primary="Search" />
-        </ListItemButton>
+    <Menu>
+      <MenuList component="nav" aria-label="menu">
+        <MenuItem
+          to="/search"
+          icon={<SearchRounded fontSize="small" />}
+          primary="Search"
+          ButtonComponent={NavLink}
+        />
         {isAuthenticated && (
           <>
-            <ListItemButton to="/dashboard" component={NavLink}>
-              <ListItemIcon sx={{ minWidth: "36px" }}>
-                <HouseRounded fontSize="small" />
-              </ListItemIcon>
-              <StyledListItemText primary="Dashboard" />
-            </ListItemButton>
-            <ListItemButton to="/settings" component={NavLink}>
-              <ListItemIcon sx={{ minWidth: "36px" }}>
-                <SettingsRounded fontSize="small" />
-              </ListItemIcon>
-              <StyledListItemText primary="Settings" />
-            </ListItemButton>
+            <MenuItem
+              to="/dashboard"
+              icon={<HouseRounded fontSize="small" />}
+              primary="Dashboard"
+              ButtonComponent={NavLink}
+            />
+            <MenuItem
+              to="/settings"
+              icon={<SettingsRounded fontSize="small" />}
+              primary="Settings"
+              ButtonComponent={NavLink}
+            />
           </>
         )}
         <Divider />
         {isAuthenticated ? (
-          <ListItemButton onClick={signOut}>
-            <ListItemIcon sx={{ minWidth: "36px" }}>
-              <LogoutRounded fontSize="small" />
-            </ListItemIcon>
-            <StyledListItemText primary="Log Out" />
-          </ListItemButton>
+          <MenuItem
+            icon={<LogoutRounded fontSize="small" />}
+            primary="Log out"
+            onClick={signOut}
+          />
         ) : (
-          <ListItemButton to="/login" component={NavLink}>
-            <ListItemIcon sx={{ minWidth: "36px" }}>
-              <LoginRounded fontSize="small" />
-            </ListItemIcon>
-            <StyledListItemText primary="Log In" />
-          </ListItemButton>
+          <MenuItem
+            to="/login"
+            icon={<LoginRounded fontSize="small" />}
+            primary="Log in"
+            ButtonComponent={NavLink}
+          />
         )}
-      </List>
-    </AppBar>
+      </MenuList>
+    </Menu>
   );
 };
 
