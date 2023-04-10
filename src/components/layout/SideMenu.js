@@ -15,7 +15,7 @@ import {
   SearchRounded,
   SettingsRounded,
 } from "@mui/icons-material";
-import { useAuth } from "../contexts/auth";
+import { useAuth } from "../../contexts/auth";
 
 const Menu = styled(AppBar)(({ theme }) => ({
   marginTop: "5vh",
