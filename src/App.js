@@ -3,7 +3,7 @@ import Dashboard from "./screens/Dashboard";
 import Search from "./screens/Search";
 import Settings from "./screens/Settings";
 import LogIn from "./screens/LogIn";
-import Layout from "./components/Layout";
+import Layout from "./components/layout";
 import ProtectedLayout from "./components/ProtectedLayout";
 
 function App() {
