@@ -1,8 +1,9 @@
+const pjson = require("../package.json");
 const { ipcRenderer, contextBridge } = require("electron");
 
 contextBridge.exposeInMainWorld("electron", {
   versions: {
-    // app: app.getVersion(),
+    app: pjson.version,
     electron: process.versions.electron,
     chrome: process.versions.chrome,
     node: process.versions.node,

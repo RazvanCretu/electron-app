@@ -15,6 +15,11 @@ const { handleWindowOpen, readCsvData } = require("./utils");
 const UserData = require("./userData");
 const isDev = require("electron-is-dev");
 
+// // Handle creating/removing shortcuts on Windows when installing/uninstalling
+// if (require("electron-squirrel-startup")) {
+//   app.quit();
+// } // NEW!
+
 let win;
 Menu.setApplicationMenu(null);
 
@@ -70,9 +75,10 @@ const createWindow = () => {
     minHeight: 800,
     minWidth: 1200,
     frame: false,
+    // show: false,
     webPreferences: {
       nodeIntegration: true,
-      preload: path.join(app.getAppPath(), "/electron/preload.js"),
+      preload: path.join(__dirname, "./preload.js"),
     },
   });
 
@@ -80,7 +86,7 @@ const createWindow = () => {
   const startUrl =
     process.env.ELECTRON_START_URL ||
     url.format({
-      pathname: path.join(app.getAppPath(), "/build/index.html"),
+      pathname: path.join(app.getAppPath(), "./build/index.html"),
       protocol: "file:",
       slashes: true,
     });
@@ -90,7 +96,9 @@ const createWindow = () => {
   win.webContents.setWindowOpenHandler(handleWindowOpen);
 
   // Open the DevTools.
-  win.webContents.openDevTools({ mode: "detach" });
+  if (isDev) {
+    win.webContents.openDevTools({ mode: "detach" });
+  }
 
   // Emitted when the window is closed.
   win.on("closed", function () {
