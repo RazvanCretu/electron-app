@@ -7,18 +7,12 @@ const {
   BrowserWindow,
   ipcMain,
   dialog,
-  session,
 } = require("electron");
 const path = require("path");
 const url = require("url");
 const { handleWindowOpen, readCsvData } = require("./utils");
 const UserData = require("./userData");
 const isDev = require("electron-is-dev");
-
-// // Handle creating/removing shortcuts on Windows when installing/uninstalling
-// if (require("electron-squirrel-startup")) {
-//   app.quit();
-// } // NEW!
 
 let win;
 Menu.setApplicationMenu(null);
