@@ -8,6 +8,13 @@ contextBridge.exposeInMainWorld("electron", {
     chrome: process.versions.chrome,
     node: process.versions.node,
   },
+  handle: (channel, cb) => {
+    ipcRenderer.on(channel, (event, ...args) => {
+      ipcRenderer.removeAllListeners(channel);
+      cb(...args);
+    });
+  },
+  update: () => ipcRenderer.send("restart"),
   handleToken: (channel, cb) => {
     ipcRenderer.on("token", (event, ...args) => cb(...args));
   },

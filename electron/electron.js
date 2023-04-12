@@ -8,6 +8,7 @@ const {
   ipcMain,
   dialog,
 } = require("electron");
+const { autoUpdater } = require("electron-updater");
 const path = require("path");
 const url = require("url");
 const { handleWindowOpen, readCsvData } = require("./utils");
@@ -94,6 +95,10 @@ const createWindow = () => {
     win.webContents.openDevTools({ mode: "detach" });
   }
 
+  win.once("ready-to-show", () => {
+    autoUpdater.checkForUpdatesAndNotify();
+  });
+
   // Emitted when the window is closed.
   win.on("closed", function () {
     win = null; // delete corresponding element
@@ -146,6 +151,15 @@ if (!gotTheLock) {
       });
     });
 }
+
+// AUTOUPDATER
+autoUpdater.on("update-downloaded", () => {
+  win.webContents.send("update_downloaded");
+});
+
+ipcMain.on("restart_app", () => {
+  autoUpdater.quitAndInstall();
+});
 
 // ########## MAC OS ##########
 app.on("open-url", (event, url) => {
