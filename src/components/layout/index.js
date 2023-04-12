@@ -3,7 +3,8 @@ import { styled } from "@mui/material/styles";
 import { Outlet } from "react-router-dom";
 import SideMenu from "./SideMenu";
 import TopBar from "./TopBar";
-import { useEffect, useState, ReactDOM } from "react";
+import { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   margin: 0,
