@@ -1,9 +1,9 @@
-import { Container, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Outlet } from "react-router-dom";
 import SideMenu from "./SideMenu";
 import TopBar from "./TopBar";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactDOM } from "react";
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   margin: 0,
@@ -42,7 +42,7 @@ const UpdateNotifier = (show = false, handleClose) => {
   if (mounted) {
     return ReactDOM.createPortal(
       content,
-      document.getElementsByTagName("body")
+      document.getElementsByTagName("body")[0]
     );
   } else {
     return null;
