@@ -1,8 +1,9 @@
-import { Container } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Outlet } from "react-router-dom";
 import SideMenu from "./SideMenu";
 import TopBar from "./TopBar";
+import { useEffect, useState } from "react";
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   margin: 0,
@@ -15,9 +16,49 @@ const StyledContainer = styled(Container)(({ theme }) => ({
   },
 }));
 
+const UpdateNotifier = (show = false, handleClose) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+
+    return () => setMounted(false);
+  }, []);
+
+  const content = show ? (
+    <Box
+      sx={{
+        position: "absolute",
+        width: "200px",
+        height: "100px",
+        background: "darkGrey.dark",
+      }}
+    >
+      <Typography>A new version has been downloaded</Typography>
+      <Button onClick={() => window.electron.update()}>Update</Button>
+    </Box>
+  ) : null;
+
+  if (mounted) {
+    return ReactDOM.createPortal(
+      content,
+      document.getElementsByTagName("body")
+    );
+  } else {
+    return null;
+  }
+};
+
 const Layout = () => {
+  const [update, setUpdate] = useState(false);
+  window.electron.handle("update_downloaded", () => {
+    setUpdate(true);
+  });
   return (
     <>
+      {update && (
+        <UpdateNotifier show={update} handleClose={() => setUpdate(false)} />
+      )}
       <TopBar />
       <SideMenu />
       <StyledContainer component="main" disableGutters>

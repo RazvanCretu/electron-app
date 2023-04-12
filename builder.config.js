@@ -16,27 +16,3 @@ module.exports = {
     token: "${env.GH_TOKEN}",
   },
 };
-
-// appId: com.example.electron-cra
-// asar: false
-// directories:
-//   buildResources: assets
-// extends: null
-// files:
-//   - build/**/*
-//   - electron/**/*
-//   - package.json
-// publish:
-//   provider: github
-//   private: true
-//   owner: RazvanCretu
-// mac:
-//   publish:
-//     provider: github
-//     owner: RazvanCretu
-//     repo: electron-app
-// win:
-//   publish:
-//     provider: github
-//     owner: RazvanCretu
-//     repo: electron-app
