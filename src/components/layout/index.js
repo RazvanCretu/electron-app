@@ -30,9 +30,14 @@ const UpdateNotifier = (show = false, handleClose) => {
     <Box
       sx={{
         position: "absolute",
-        width: "200px",
+        width: "50%",
         height: "100px",
+        margin: "0 auto",
         background: "darkGrey.dark",
+        left: 0,
+        right: 0,
+        top: "50%",
+        zIndex: 1103,
       }}
     >
       <Typography>A new version has been downloaded</Typography>

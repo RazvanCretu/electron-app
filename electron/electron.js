@@ -70,7 +70,6 @@ const createWindow = () => {
     minHeight: 800,
     minWidth: 1200,
     frame: false,
-    // show: false,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, "./preload.js"),
@@ -91,9 +90,9 @@ const createWindow = () => {
   win.webContents.setWindowOpenHandler(handleWindowOpen);
 
   // Open the DevTools.
-  if (isDev) {
-    win.webContents.openDevTools({ mode: "detach" });
-  }
+  // if (isDev) {
+  // }
+  win.webContents.openDevTools({ mode: "detach" });
 
   win.once("ready-to-show", () => {
     autoUpdater.checkForUpdatesAndNotify();
@@ -157,7 +156,7 @@ autoUpdater.on("update-downloaded", () => {
   win.webContents.send("update_downloaded");
 });
 
-ipcMain.on("restart_app", () => {
+ipcMain.on("restart", () => {
   autoUpdater.quitAndInstall();
 });
 
