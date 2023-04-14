@@ -2,19 +2,25 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and intregates with [Electron.js](https://www.electronjs.org/) to make a beautiful desktop application.
 
-## Installation
+## Features
+
+- Import CSV files.
+- Redux Store.
+- Google / Discord login providers
+- Bar Chart and customise it the way you like with the available controls.
+- Save the chart on local machine.
+- Auto Updates
+- MUI Design
+
+## Install
 
 Find the latest installer for Windows under the **Releases** section.
 
-## Available Features
+By default the app is installed under `%APPDATA%\Local\Programs` or `C:\Users\<User>\AppData\Local\Programs`.
 
-- Import data using csv files.
-- Store local imported data and chart settings in a redux store making them available anywhere in the app.
-- Login into the app using Google / Discord providers
-- Visualize data on a Bar Chart and customise it the way you like with the available controls.
-- Save the generated chart on your local machine.
+## Uninstall
 
-In the project directory, you can run:
+An uninstaller is also available in the installation folder. It also works with windows' `Add or Remove Programs` feature.
 
 ### `npm start`
 
