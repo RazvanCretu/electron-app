@@ -1,10 +1,11 @@
-import { Box, Button, Container, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Outlet } from "react-router-dom";
+import { Box, Button, Collapse, Container, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { useAuth } from "../../contexts/auth";
 import SideMenu from "./SideMenu";
 import TopBar from "./TopBar";
-import { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   margin: 0,
@@ -46,10 +47,7 @@ const UpdateNotifier = (show = false, handleClose) => {
   ) : null;
 
   if (mounted) {
-    return ReactDOM.createPortal(
-      content,
-      document.getElementsByTagName("body")[0]
-    );
+    return createPortal(content, document.getElementsByTagName("body")[0]);
   } else {
     return null;
   }
@@ -57,16 +55,26 @@ const UpdateNotifier = (show = false, handleClose) => {
 
 const Layout = () => {
   const [update, setUpdate] = useState(false);
+  const { isAuthenticated } = useAuth();
+
   window.electron.handle("update_downloaded", () => {
     setUpdate(true);
   });
+
   return (
     <>
       {update && (
         <UpdateNotifier show={update} handleClose={() => setUpdate(false)} />
       )}
       <TopBar />
-      <SideMenu />
+      <Collapse
+        orientation="horizontal"
+        in={isAuthenticated}
+        mountOnEnter
+        unmountOnExit
+      >
+        <SideMenu />
+      </Collapse>
       <StyledContainer component="main" disableGutters>
         <Outlet />
       </StyledContainer>
