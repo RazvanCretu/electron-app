@@ -10,7 +10,7 @@ function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route index element={<div></div>} />
+        <Route index element={<LogIn />} />
         <Route path="search" element={<Search />} />
         <Route path="login" element={<LogIn />} />
         <Route element={<ProtectedLayout />}>
