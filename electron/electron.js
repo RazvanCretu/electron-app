@@ -96,6 +96,10 @@ const createWindow = () => {
   win.webContents.openDevTools({ mode: "detach" });
 
   win.once("ready-to-show", () => {
+    win.setBackgroundColor("#282e3a");
+    win.show();
+    win.focus();
+
     autoUpdater.checkForUpdatesAndNotify();
   });
 
@@ -130,10 +134,6 @@ if (!gotTheLock) {
     .whenReady()
     .then(() => {
       createWindow();
-      win.setBackgroundColor("#282e3a");
-      win.once("ready-to-show", () => {
-        win.show();
-      });
 
       app.on("activate", () => {
         if (BrowserWindow.getAllWindows().length === 0) {
