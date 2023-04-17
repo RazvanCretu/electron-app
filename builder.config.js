@@ -4,8 +4,9 @@ module.exports = {
   //  Electron Builder Settings
   appId: `com.electron.${pjson.name}`,
   artifactName: "${productName} setup.${ext}",
-  // The below is need so that `electron-builder` won't search for public/electron.js but rather in the paths included in `files`
-  // electron/electron.js our case.
+  // The below is need so that `electron-builder` won't search
+  // for public/electron.js but rather in the paths
+  // included in `files` property. electron/electron.js our case.
   extends: null,
   files: ["build/**/*", "electron/**/*", "package.json"],
   directories: { output: "./dist/${version}" },
