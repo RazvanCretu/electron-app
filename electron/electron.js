@@ -70,6 +70,7 @@ const createWindow = () => {
     minHeight: 800,
     minWidth: 1200,
     frame: false,
+    show: false,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, "./preload.js"),
@@ -129,6 +130,10 @@ if (!gotTheLock) {
     .whenReady()
     .then(() => {
       createWindow();
+      win.setBackgroundColor("#282e3a");
+      win.once("ready-to-show", () => {
+        win.show();
+      });
 
       app.on("activate", () => {
         if (BrowserWindow.getAllWindows().length === 0) {
