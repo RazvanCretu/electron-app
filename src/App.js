@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "./screens/Dashboard";
-import Search from "./screens/Search";
-import Settings from "./screens/Settings";
-import LogIn from "./screens/LogIn";
+import Dashboard from "./views/Dashboard";
+import Search from "./views/Search";
+import Settings from "./views/Settings";
+import LogIn from "./views/LogIn";
 import Layout from "./components/layout";
 import ProtectedLayout from "./components/ProtectedLayout";
 
