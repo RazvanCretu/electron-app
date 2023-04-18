@@ -11,8 +11,7 @@ function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<LogIn />} />
-        <Route path="search" element={<Search />} />
-        <Route path="login" element={<LogIn />} />
+        {/* <Route path="search" element={<Search />} /> */}
         <Route element={<ProtectedLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="settings" element={<Settings />} />
