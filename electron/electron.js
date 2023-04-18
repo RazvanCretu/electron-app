@@ -47,20 +47,17 @@ const handleFileOpen = async () => {
 };
 
 const handleCsvOpen = async () => {
-  const { canceled, filePaths } = await dialog.showOpenDialog(win, {
+  const filePaths = dialog.showOpenDialogSync(win, {
     title: "Choose a .csv file to open",
     filters: [{ name: "Csv", extensions: ["csv"] }],
     properties: ["openFile"],
   });
-  if (canceled) {
-    return;
-  } else {
-    try {
-      const data = await readCsvData(filePaths[0]);
-      return data;
-    } catch (err) {
-      console.log(err);
-    }
+
+  try {
+    const data = await readCsvData(filePaths[0]);
+    return data;
+  } catch (err) {
+    console.log(err);
   }
 };
 
