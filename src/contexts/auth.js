@@ -45,7 +45,7 @@ export const Auth = ({ children }) => {
     });
   };
 
-  const signOut = () => {
+  const logOut = () => {
     updateQuery((prevData) => ({
       ...prevData,
       me: null,
@@ -72,7 +72,7 @@ export const Auth = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ data, loading, error, isAuthenticated, signOut }}
+      value={{ data, loading, error, isAuthenticated, logOut }}
     >
       {children}
     </AuthContext.Provider>
