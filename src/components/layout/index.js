@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Outlet } from "react-router-dom";
-import { Box, Button, Collapse, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useAuth } from "../../contexts/auth";
 import SideMenu from "./SideMenu";
 import TopBar from "./TopBar";
 
-const StyledContainer = styled(Container)(({ theme }) => ({
+const StyledContainer = styled(Container)(({ theme, isAuthenticated }) => ({
   margin: 0,
   paddingTop: "5vh",
-  paddingLeft: "160px",
   background: theme.palette.darkGrey.main,
   height: "100vh",
   [theme.breakpoints.up("lg")]: {
@@ -55,7 +54,7 @@ const UpdateNotifier = (show = false, handleClose) => {
 
 const Layout = () => {
   const [update, setUpdate] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { loading, isAuthenticated } = useAuth();
 
   window.electron.handle("update_downloaded", () => {
     setUpdate(true);
@@ -67,15 +66,17 @@ const Layout = () => {
         <UpdateNotifier show={update} handleClose={() => setUpdate(false)} />
       )}
       <TopBar />
-      <Collapse
-        orientation="horizontal"
-        in={isAuthenticated}
-        mountOnEnter
-        unmountOnExit
+      <SideMenu />
+      <StyledContainer
+        component="main"
+        disableGutters
+        sx={{
+          paddingLeft: isAuthenticated ? "160px" : "0px",
+          transition: ".3s",
+          transitionProperty: "padding-left",
+        }}
       >
-        <SideMenu />
-      </Collapse>
-      <StyledContainer component="main" disableGutters>
+        {/* {loading && <div>Loading</div>} */}
         <Outlet />
       </StyledContainer>
     </>

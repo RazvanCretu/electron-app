@@ -1,5 +1,6 @@
+import { useRef } from "react";
 import { NavLink } from "react-router-dom";
-import { styled } from "@mui/material/styles";
+import { CSSTransition } from "react-transition-group";
 import {
   AppBar,
   List,
@@ -9,12 +10,11 @@ import {
   Divider,
 } from "@mui/material";
 import {
-  HouseRounded,
   LogoutRounded,
-  LoginRounded,
-  SearchRounded,
+  TableChartRounded,
   SettingsRounded,
 } from "@mui/icons-material";
+import { styled } from "@mui/material/styles";
 import { useAuth } from "../../contexts/auth";
 
 const Menu = styled(AppBar)(({ theme }) => ({
@@ -24,6 +24,23 @@ const Menu = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.darkGrey.dark,
   width: "100%",
   maxWidth: 160,
+  "&.enter": {
+    transform: "translateX(-100%)",
+    opacity: 0,
+  },
+  "&.enter-active": {
+    transform: "translateX(0%)",
+    opacity: "1",
+    transition: ".7s",
+  },
+  "&.exit": {
+    transform: "translateX(0%)",
+    opacity: "0",
+    transition: ".7s",
+  },
+  "&.exit-active": {
+    transform: "translateX(-100%)",
+  },
 }));
 
 const MenuList = styled(List)(({ theme }) => ({
@@ -55,50 +72,39 @@ const MenuItem = ({ to, icon, primary, onClick, ButtonComponent }) => {
 };
 
 const SideMenu = () => {
-  const { isAuthenticated, signOut } = useAuth();
+  const { isAuthenticated, logOut } = useAuth();
+  const menuRef = useRef(null);
 
   return (
-    <Menu>
-      <MenuList component="nav" aria-label="menu">
-        <MenuItem
-          to="/search"
-          icon={<SearchRounded fontSize="small" />}
-          primary="Search"
-          ButtonComponent={NavLink}
-        />
-        {isAuthenticated && (
-          <>
-            <MenuItem
-              to="/dashboard"
-              icon={<HouseRounded fontSize="small" />}
-              primary="Dashboard"
-              ButtonComponent={NavLink}
-            />
-            <MenuItem
-              to="/settings"
-              icon={<SettingsRounded fontSize="small" />}
-              primary="Settings"
-              ButtonComponent={NavLink}
-            />
-          </>
-        )}
-        <Divider />
-        {isAuthenticated ? (
+    <CSSTransition
+      in={isAuthenticated}
+      timeout={700}
+      nodeRef={menuRef}
+      unmountOnExit
+    >
+      <Menu ref={menuRef}>
+        <MenuList component="nav" aria-label="menu">
+          <MenuItem
+            to="/dashboard"
+            icon={<TableChartRounded fontSize="small" />}
+            primary="Dashboard"
+            ButtonComponent={NavLink}
+          />
+          <MenuItem
+            to="/settings"
+            icon={<SettingsRounded fontSize="small" />}
+            primary="Settings"
+            ButtonComponent={NavLink}
+          />
+          <Divider />
           <MenuItem
             icon={<LogoutRounded fontSize="small" />}
             primary="Log out"
-            onClick={signOut}
+            onClick={logOut}
           />
-        ) : (
-          <MenuItem
-            to="/login"
-            icon={<LoginRounded fontSize="small" />}
-            primary="Log in"
-            ButtonComponent={NavLink}
-          />
-        )}
-      </MenuList>
-    </Menu>
+        </MenuList>
+      </Menu>
+    </CSSTransition>
   );
 };
 
