@@ -13,6 +13,7 @@ import {
   LogoutRounded,
   TableChartRounded,
   SettingsRounded,
+  PersonRounded,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import { useAuth } from "../../contexts/auth";
@@ -88,6 +89,12 @@ const SideMenu = () => {
             to="/dashboard"
             icon={<TableChartRounded fontSize="small" />}
             primary="Dashboard"
+            ButtonComponent={NavLink}
+          />
+          <MenuItem
+            to="/profile"
+            icon={<PersonRounded fontSize="small" />}
+            primary="Profile"
             ButtonComponent={NavLink}
           />
           <MenuItem
