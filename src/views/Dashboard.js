@@ -4,10 +4,16 @@ import { readLocalData } from "../store/localDataSlice";
 import { FileOpenRounded } from "@mui/icons-material";
 import Bar from "../components/charts/bar";
 import Controls from "../components/charts/bar/controls";
+import Loader from "../components/Loader";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const count = useSelector((state) => state.localData.data.length);
+  const loading = useSelector((state) => state.localData.loading);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <Box
