@@ -1,4 +1,4 @@
-import { styled, makeStyles } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
 export default styled("span")(({ theme }) => ({
   display: "block",
