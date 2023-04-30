@@ -1,5 +1,3 @@
-"use strict";
-
 const {
   app,
   shell,
@@ -88,9 +86,9 @@ const createWindow = () => {
   win.webContents.setWindowOpenHandler(handleWindowOpen);
 
   // Open the DevTools.
-  // if (isDev) {
-  // }
-  win.webContents.openDevTools({ mode: "detach" });
+  if (isDev) {
+    win.webContents.openDevTools({ mode: "detach" });
+  }
 
   win.once("ready-to-show", () => {
     win.setBackgroundColor("#282e3a");
