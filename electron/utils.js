@@ -27,21 +27,10 @@ const readCsvData = (path) => {
         resolve(_);
       });
   });
+  // fs.readFileSync(path,"utf-8");
 };
-
-// const transformCsvData = (data) => {
-//   const [columns, ...rows] = data;
-//   return rows.map((item) => {
-//     let itemData = {};
-//     item.forEach((val, i, arr) => {
-//       itemData[columns[i]] = val;
-//     });
-//     return itemData;
-//   });
-// };
 
 module.exports = {
   handleWindowOpen,
   readCsvData,
-  // transformCsvData,
 };
