@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Outlet } from "react-router-dom";
 import { Box, Button, Container, Typography } from "@mui/material";
@@ -6,6 +6,7 @@ import { styled } from "@mui/material/styles";
 import { useAuth } from "../../contexts/auth";
 import SideMenu from "./SideMenu";
 import TopBar from "./TopBar";
+import { CSSTransition } from "react-transition-group";
 
 const StyledContainer = styled(Container)(({ theme, isAuthenticated }) => ({
   margin: 0,
@@ -17,8 +18,44 @@ const StyledContainer = styled(Container)(({ theme, isAuthenticated }) => ({
   },
 }));
 
-const UpdateNotifier = (show = false, handleClose) => {
+const StyledBox = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  left: 0,
+  top: 0,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "100%",
+  height: "100%",
+  margin: "0 auto",
+  color: "hsla(0,0%,100%,1)",
+  background: "rgba(0,0,0,.5)",
+  overflowY: "hidden",
+  borderRadius: "10px",
+  zIndex: 1103,
+  "&.enter": {
+    opacity: 0,
+    transform: "scale(0)",
+  },
+  "&.enter-active": {
+    opacity: 1,
+    transform: "scale(1)",
+    transition: "transform .2s, opacity .7s",
+  },
+  "&.exit": {
+    transform: "scale(1)",
+    transition: "opacity .2s, transform .7s",
+  },
+  "&.exit-active": {
+    opacity: 0,
+    transform: "scale(0)",
+  },
+}));
+
+const UpdateNotifier = ({ show = false, handleClose }) => {
   const [mounted, setMounted] = useState(false);
+  const notifyRef = useRef(null);
 
   useEffect(() => {
     setMounted(true);
@@ -26,24 +63,21 @@ const UpdateNotifier = (show = false, handleClose) => {
     return () => setMounted(false);
   }, []);
 
-  const content = show ? (
-    <Box
-      sx={{
-        position: "absolute",
-        width: "50%",
-        height: "100px",
-        margin: "0 auto",
-        background: "darkGrey.dark",
-        left: 0,
-        right: 0,
-        top: "50%",
-        zIndex: 1103,
-      }}
-    >
-      <Typography>A new version has been downloaded</Typography>
-      <Button onClick={() => window.electron.update()}>Update</Button>
-    </Box>
-  ) : null;
+  const content = (
+    <CSSTransition in={show} timeout={1000} nodeRef={notifyRef} unmountOnExit>
+      <StyledBox ref={notifyRef}>
+        <Typography>A new version has been downloaded</Typography>
+        <Box>
+          <Button variant="contained" onClick={() => window.electron.update()}>
+            Update
+          </Button>
+          <Button variant="contained" onClick={handleClose} color="error">
+            Close
+          </Button>
+        </Box>
+      </StyledBox>
+    </CSSTransition>
+  );
 
   if (mounted) {
     return createPortal(content, document.getElementsByTagName("body")[0]);
@@ -62,9 +96,8 @@ const Layout = () => {
 
   return (
     <>
-      {update && (
-        <UpdateNotifier show={update} handleClose={() => setUpdate(false)} />
-      )}
+      <UpdateNotifier show={update} handleClose={() => setUpdate(false)} />
+
       <TopBar />
       <SideMenu />
       <StyledContainer
@@ -76,7 +109,8 @@ const Layout = () => {
           transitionProperty: "padding-left",
         }}
       >
-        {/* {loading && <div>Loading</div>} */}
+        {loading && <div>Loading</div>}
+        {/* <Button onClick={() => setUpdate(true)}>Notifier</Button> */}
         <Outlet />
       </StyledContainer>
     </>
