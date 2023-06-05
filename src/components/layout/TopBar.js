@@ -5,6 +5,7 @@ import {
   CloseRounded,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
+import { useEffect, useState } from "react";
 
 const Bar = styled(AppBar)(({ theme }) => ({
   paddingRight: "1rem",
@@ -40,12 +41,32 @@ const IconButtonStyled = styled(IconButton)(({ theme }) => ({
 }));
 
 const TopBar = () => {
+  const currentStatus = navigator.onLine;
+  const [isOnline, setIsOnline] = useState(currentStatus);
+
+  useEffect(() => {
+    const updateOnlineStatus = () => {
+      if (isOnline && !currentStatus) setIsOnline(false);
+      if (!isOnline && currentStatus) setIsOnline(true);
+    };
+
+    window.addEventListener("online", updateOnlineStatus);
+    window.addEventListener("offline", updateOnlineStatus);
+
+    return () => {
+      window.removeEventListener("online", updateOnlineStatus);
+      window.removeEventListener("offline", updateOnlineStatus);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOnline, setIsOnline]);
+
   return (
     <Bar>
       <TypographyStyled>Chartr {window.electron.versions.app}</TypographyStyled>
       <TypographyStyled>
         Electron {window.electron.versions.electron}
       </TypographyStyled>
+      {!isOnline && <Typography>Offline</Typography>}
       <IconButtonStyled
         color="info"
         onClick={() => {

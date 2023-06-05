@@ -81,8 +81,6 @@ const UpdateNotifier = ({ show = false, handleClose }) => {
 
   if (mounted) {
     return createPortal(content, document.getElementsByTagName("body")[0]);
-  } else {
-    return null;
   }
 };
 
@@ -97,7 +95,6 @@ const Layout = () => {
   return (
     <>
       <UpdateNotifier show={update} handleClose={() => setUpdate(false)} />
-
       <TopBar />
       <SideMenu />
       <StyledContainer
