@@ -18,8 +18,8 @@ import Theme from "./theme";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <Router>
+    <Router>
+      <Provider store={store}>
         <ApolloProvider client={client}>
           <Auth>
             <GlobalStyles
@@ -34,7 +34,7 @@ root.render(
             </Theme>
           </Auth>
         </ApolloProvider>
-      </Router>
-    </Provider>
+      </Provider>
+    </Router>
   </React.StrictMode>
 );
