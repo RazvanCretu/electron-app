@@ -18,6 +18,17 @@ const localDataSlice = createSlice({
     clear: (state, action) => {
       state.data = [];
     },
+    setData: (state, action) => {
+      state.loading = false;
+      state.data = action.payload;
+    },
+    setLoading: (state, action) => {
+      state.loading = true;
+    },
+    setError: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(readLocalData.rejected, (state, action) => {
@@ -37,6 +48,6 @@ const localDataSlice = createSlice({
 // Selectors
 export const getLocalData = (state) => state.localData;
 
-export const { clear } = localDataSlice.actions;
+export const { clear, setData, setError, setLoading } = localDataSlice.actions;
 
 export default localDataSlice.reducer;
