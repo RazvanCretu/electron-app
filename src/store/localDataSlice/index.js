@@ -23,11 +23,14 @@ const localDataSlice = createSlice({
       state.data = action.payload;
     },
     setLoading: (state, action) => {
-      state.loading = true;
+      state.loading = !state.loading;
     },
     setError: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+    },
+    pushRow: (state, action) => {
+      state.data = [...state.data, ...action.payload];
     },
   },
   extraReducers: (builder) => {
@@ -48,6 +51,7 @@ const localDataSlice = createSlice({
 // Selectors
 export const getLocalData = (state) => state.localData;
 
-export const { clear, setData, setError, setLoading } = localDataSlice.actions;
+export const { clear, setData, setError, setLoading, pushRow } =
+  localDataSlice.actions;
 
 export default localDataSlice.reducer;

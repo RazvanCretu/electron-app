@@ -7,4 +7,9 @@ export default configureStore({
     localData: localDataReducer,
     barChart: barChartReducer,
   },
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware({
+  //     immutableCheck: false,
+  //     serializableCheck: false,
+  //   }),
 });
