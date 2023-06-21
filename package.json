@@ -1,7 +1,7 @@
 {
   "name": "chartr",
   "productName": "Chartr",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "private": true,
   "author": {
     "name": "Razvi",
@@ -11,14 +11,14 @@
   "main": "electron",
   "homepage": "./",
   "scripts": {
-    "react-start": "react-scripts start",
-    "react-build": "react-scripts build",
-    "react-test": "react-scripts test",
-    "react-eject": "react-scripts eject",
-    "develop": "concurrently -k \"npm run react-start\" \"npm:electron\"",
-    "electron": "wait-on http://127.0.0.1:3000 && set ELECTRON_START_URL=http://localhost:3000 && electron .",
-    "electron-package": "electron-builder -c=builder.config.js -p never --win",
-    "electron-publish": "electron-builder -c=builder.config.js -p always --win"
+    "react:start": "react-scripts start",
+    "react:build": "react-scripts build",
+    "react:test": "react-scripts test",
+    "react:eject": "react-scripts eject",
+    "electron": "wait-on http://127.0.0.1:3000 && set BROWSER=none && set ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "electron:develop": "concurrently -k \"npm run react:start\" \"npm:electron\"",
+    "electron:package": "electron-builder -c=builder.config.js -p never --win",
+    "electron:publish": "electron-builder -c=builder.config.js -p always --win"
   },
   "dependencies": {
     "@apollo/client": "^3.7.9",
@@ -46,8 +46,8 @@
   },
   "devDependencies": {
     "concurrently": "^7.6.0",
-    "electron": "^24.1.0",
-    "electron-builder": "^23.6.0",
+    "electron": "^25.1.1",
+    "electron-builder": "^24.4.0",
     "wait-on": "^7.0.1"
   },
   "eslintConfig": {
