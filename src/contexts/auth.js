@@ -1,18 +1,7 @@
 import { createContext, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { gql, useLazyQuery } from "@apollo/client";
-
-const QUERY_ME = gql`
-  query User {
-    me {
-      id
-      username
-      email
-    }
-  }
-`;
-
-const AuthContext = createContext();
+import { useLazyQuery } from "@apollo/client";
+import { QUERY_ME } from "../queries/user";
 
 const localToken = () => {
   // run client-side only
@@ -22,57 +11,58 @@ const localToken = () => {
   }
 };
 
+const AuthContext = createContext();
+
 export const useAuth = () => useContext(AuthContext);
 
 export const Auth = ({ children }) => {
   const navigate = useNavigate();
-  const [signIn, { data, loading, error, client, updateQuery }] = useLazyQuery(
-    QUERY_ME,
-    { fetchPolicy: "network-only" }
-  );
+  const [login, { error, loading, data, client }] = useLazyQuery(QUERY_ME, {
+    onError: (error) => {
+      console.log(error);
+    },
+    onCompleted: () => {
+      navigate("/dashboard");
+    },
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-only",
+  });
 
-  const isAuthenticated = data?.me && true;
-
-  const logIn = (token) => {
-    signIn({
-      context: {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    }).then((resp) => {
-      if (resp.data?.me) navigate("/dashboard");
-    });
-  };
-
-  const logOut = () => {
-    updateQuery((prevData) => ({
-      ...prevData,
-      me: null,
-    }));
-    client.clearStore();
-
+  const logout = async () => {
+    // navigate("/");
     window.localStorage.removeItem("token");
+    await client.resetStore();
+    // await client.clearStore();
+    // client.cache.gc();
   };
+
+  const isAuthenticated = data?.me !== undefined;
 
   useEffect(() => {
-    const token = localToken();
-    if (token) logIn(token);
-
     window.electron.handleToken("token", (message) => {
       const url = new URLSearchParams(message.replace("succes/", ""));
       const params = Object.fromEntries(url.entries());
 
       window.localStorage.setItem("token", params.token);
-
-      logIn(params.token);
+      login();
     });
-    // eslint-disable-next-line
-  }, []);
+
+    if (!isAuthenticated) {
+      login();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [login]);
 
   return (
     <AuthContext.Provider
-      value={{ data, loading, error, isAuthenticated, logOut }}
+      value={{
+        data,
+        loading,
+        error,
+        isAuthenticated,
+        login,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>
