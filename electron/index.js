@@ -1,5 +1,6 @@
 const {
   app,
+  session,
   shell,
   Menu,
   BrowserWindow,
@@ -88,6 +89,12 @@ const createWindow = () => {
   // Open the DevTools.
   if (isDev) {
     win.webContents.openDevTools({ mode: "detach" });
+    // BrowserWindow.addDevToolsExtension(
+    //   "C:\\Users\\Razvi\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\fmkadmapgofadopljbjfkapdkoienihi\\4.27.8_0"
+    // );
+    // BrowserWindow.addDevToolsExtension(
+    //   "C:\\Users\\Razvi\\AppData\\LocalGoogle\\Chrome\\User Data\\Default\\Extensions\\lmhkpmbekcpmknklioeibfkpmmfibljd\\3.0.19_0"
+    // );
   }
 
   win.once("ready-to-show", () => {
@@ -127,14 +134,16 @@ if (!gotTheLock) {
   // Some APIs can only be used after this event occurs.
   app
     .whenReady()
-    .then(() => {
-      createWindow();
-
-      app.on("activate", () => {
-        if (BrowserWindow.getAllWindows().length === 0) {
-          createWindow();
-        }
-      });
+    .then(async () => {
+      await session.defaultSession.loadExtension(
+        "C:\\Users\\Razvi\\Downloads\\ReactDevTools"
+      );
+      await session.defaultSession.loadExtension(
+        "C:\\Users\\Razvi\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\lmhkpmbekcpmknklioeibfkpmmfibljd\\3.0.19_1"
+      );
+      await session.defaultSession.loadExtension(
+        "C:\\Users\\Razvi\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\jdkknkkbebbapilgoeccciglkfbmbnfm\\4.1.4_0"
+      );
     })
     .then(() => {
       ipcMain.handle("dialog:openCsv", handleCsvOpen);
@@ -146,6 +155,15 @@ if (!gotTheLock) {
           win.unmaximize();
         } else {
           win.maximize();
+        }
+      });
+    })
+    .finally(() => {
+      createWindow();
+
+      app.on("activate", () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+          createWindow();
         }
       });
     });
