@@ -73,7 +73,7 @@ const MenuItem = ({ to, icon, primary, onClick, ButtonComponent }) => {
 };
 
 const SideMenu = () => {
-  const { isAuthenticated, logOut } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const menuRef = useRef(null);
 
   return (
@@ -107,7 +107,7 @@ const SideMenu = () => {
           <MenuItem
             icon={<LogoutRounded fontSize="small" />}
             primary="Log out"
-            onClick={logOut}
+            onClick={logout}
           />
         </MenuList>
       </Menu>
